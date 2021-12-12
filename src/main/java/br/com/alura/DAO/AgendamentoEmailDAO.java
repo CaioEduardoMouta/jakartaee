@@ -4,8 +4,7 @@ import br.com.alura.entidade.AgendamentoEmail;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -25,4 +24,16 @@ public class AgendamentoEmailDAO {
     public void inserir(AgendamentoEmail agendamentoEmail) {
         entityManager.persist(agendamentoEmail);
     }
+    
+    public List<AgendamentoEmail> listarPorNaoAgendado() {
+    	return entityManager
+                .createQuery("SELECT ae FROM agendamentoEmail ae WHERE ae.agendado = false",
+                        AgendamentoEmail.class).getResultList();
+    }
+
+    public void alterar(AgendamentoEmail agendamentoEmail) {
+        entityManager.merge(agendamentoEmail);
+    }
+
+
 }
