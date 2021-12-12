@@ -4,4 +4,7 @@
 .project
 .servers
 .RemoteSystemsTempFiles
-
+.libs
+.bin
+.classpath
+.settings
