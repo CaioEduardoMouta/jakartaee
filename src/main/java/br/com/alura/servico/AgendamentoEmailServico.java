@@ -33,8 +33,13 @@ public class AgendamentoEmailServico {
     }
 
     public void alerar(AgendamentoEmail agendamentoEmail) {
-        agendamentoEmail.setAgendado(true);
-        dao.alterar(agendamentoEmail);
+        if(agendamentoEmail.getEmail().equals("joao@alura.com.br")){
+            throw new RuntimeException("Não foi alterar");
+        }else {
+            agendamentoEmail.setAgendado(true);
+            dao.alterar(agendamentoEmail);
+        }
+
     }
 
     public void enviar(AgendamentoEmail agendamentoEmail) {

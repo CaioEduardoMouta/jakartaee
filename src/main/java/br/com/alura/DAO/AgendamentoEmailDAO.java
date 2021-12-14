@@ -3,17 +3,25 @@ package br.com.alura.DAO;
 import br.com.alura.entidade.AgendamentoEmail;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import javax.persistence.PersistenceContext;
+import javax.transaction.UserTransaction;
 import java.util.List;
 
 
 @Stateless
+@TransactionManagement(TransactionManagementType.BEAN)
 public class AgendamentoEmailDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Inject
+    private UserTransaction userTransaction;
 
     public List<AgendamentoEmail> listar() {
         return entityManager.createQuery(
@@ -32,7 +40,14 @@ public class AgendamentoEmailDAO {
     }
 
     public void alterar(AgendamentoEmail agendamentoEmail) {
-        entityManager.merge(agendamentoEmail);
+        try {
+            userTransaction.begin();
+            entityManager.merge(agendamentoEmail);
+            userTransaction.commit();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 
